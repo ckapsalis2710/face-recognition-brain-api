@@ -3,10 +3,10 @@ const { ClarifaiStub, grpc } = require("clarifai-nodejs-grpc");
 
 const handleApiCall = (req, res) => {
 	// clarifai API credentials
-	const PAT = '28a810cf2ffd4743b6d64c776f63792a';
-	const USER_ID = 'wuzamanfou';
-	const APP_ID = 'test';
-	const MODEL_ID = 'face-detection';
+	const PAT = process.env.CLARIFAI_PAT;
+	const USER_ID = process.env.CLARIFAI_USER_ID;
+	const APP_ID = process.env.CLARIFAI_APP_ID;
+	const MODEL_ID = process.env.CLARIFAI_MODEL_ID;
 	const IMAGE_URL = req.body.input;
 
 	const stub = ClarifaiStub.grpc();
