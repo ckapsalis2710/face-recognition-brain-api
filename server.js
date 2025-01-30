@@ -8,6 +8,7 @@ const profile = require('./controllers/profile');
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const image = require('./controllers/image');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0; 
 const serverDefaultPort = 3000;
 
 const db = knex({
