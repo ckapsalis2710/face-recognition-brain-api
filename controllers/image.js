@@ -35,7 +35,7 @@ const handleApiCall = (req, res) => {
 
 	        if (response.status.code !== 10000) {
 	            // throw new Error("Post model outputs failed, status: " + response.status.description);
-	            return res.status(400).json('Clarifai API: Post model outputs failed');
+	            return res.status(400).json("Clarifai API: Post model outputs failed. Status: " + response.status.description);
 	        }
 
 	        // Since we have one input, one output will exist here
