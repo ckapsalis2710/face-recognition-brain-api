@@ -22,18 +22,29 @@ if (process.env.NODE_ENV === 'development') {
   console.log('✅ Production environment detected');
 }
 
-const db = knex({
-  client: 'pg',
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-    host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-  }
-});
+const db = process.env.NODE_ENV === 'development' ? knex({ 
+      // connect to your own database when NODE_ENV = development
+      client: 'pg',
+      connection: {
+        host : process.env.DATABASE_HOST,
+        user : process.env.DATABASE_USER,
+        password : '',
+        database : process.env.DATABASE_NAME
+      }
+    }) :
+    // else connect to production database:
+    knex({
+    client: 'pg',
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME
+    }
+  });
 
 // create our app by running express
 const app = express();
