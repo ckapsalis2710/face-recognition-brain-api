@@ -30,11 +30,13 @@ const handleApiCall = (req, res) => {
 	    (err, response) => {
 	        if (err) {
 	            // throw new Error(err);
+	            console.error("API Error:", err);
 	            return res.status(400).json('there was an error from Clarifai API');
 	        }
 
 	        if (response.status.code !== 10000) {
 	            // throw new Error("Post model outputs failed, status: " + response.status.description);
+	            console.error("API Response Error:", response.status.description);
 	            return res.status(400).json("Clarifai API: Post model outputs failed. Status: " + response.status.description);
 	        }
 

@@ -10,6 +10,18 @@ const signin = require('./controllers/signin');
 const image = require('./controllers/image');
 const serverDefaultPort = 3000;
 
+if (process.env.NODE_ENV === 'development') {
+  try {
+    require('dotenv').config({ path: '.env.development' });
+    console.log('✅ Development environment loaded');
+    console.log('NODE_ENV after dotenv:', process.env.NODE_ENV);
+  } catch (error) {
+    console.log('No .env.development file found');
+  }
+} else {
+  console.log('✅ Production environment detected');
+}
+
 const db = knex({
   client: 'pg',
   connection: {

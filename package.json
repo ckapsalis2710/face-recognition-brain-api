@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "dev": "set NODE_ENV=development&& nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "dotenv": "^17.2.2",
     "nodemon": "^3.1.9"
   },
   "dependencies": {
