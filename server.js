@@ -7,7 +7,10 @@ const knex = require('knex');
 const profile = require('./controllers/profile');
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
+const signout = require('./controllers/signout');
 const image = require('./controllers/image');
+const auth = require('./controllers/authorization');
+const sessionManager = require('./controllers/sessionManager');
 const serverDefaultPort = 3000;
 
 if (process.env.NODE_ENV === 'development') {
@@ -48,18 +51,23 @@ const db = process.env.NODE_ENV === 'development' ? knex({
 
 // create our app by running express
 const app = express();
+const morgan = require('morgan');
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
 	res.send('it is working!!!');
 });
 
-app.get('/profile/:id', (req, res) => {profile.handleProfileGet(req, res, db)});
-app.post('/signin', signin.handleSignin(db, bcrypt)); // keep it just to show another way
+app.post('/signin', signin.signinAuthiedication(db, bcrypt)); // keep it just to show another way
 app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcrypt)})
-app.put('/image', (req, res) => {image.handleImage(req, res, db)});
-app.post('/imageurl', (req, res) => {image.handleApiCall(req, res)});
+app.get('/profile/:id', auth.requireAuth, (req, res) => {profile.handleProfileGet(req, res, db)});
+app.post('/profile/:id', auth.requireAuth, (req, res) => {profile.handleProfileUpdate(req, res, db)});
+app.put('/image', auth.requireAuth, (req, res) => {image.handleImage(req, res, db)});
+app.post('/imageurl', auth.requireAuth, (req, res) => {image.handleApiCall(req, res)});
+app.post('/signout', (req, res) => signout.deleteRedisEntry(req, res)); 
+app.get('/test-redis', (req, res) => sessionManager.test_RedisDb(req, res));
 
 app.listen(process.env.PORT || serverDefaultPort, ()=> {
   if (process.env.PORT) {
@@ -67,5 +75,4 @@ app.listen(process.env.PORT || serverDefaultPort, ()=> {
   } else {
     console.log(`App is running on port ${serverDefaultPort}`);
   }
-	
 });
