@@ -56,7 +56,7 @@ const signinAuthiedication = (db, bcrypt) => async (req, res) => {
 			if (session.success) {
 		        return res.json(session);
 		      } else {
-		        return res.status(500).json(session.error);
+		        return res.status(500).json(session);
 		      }
 		} else {
 			return res.status(400).json('Invalid credentials');

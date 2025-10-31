@@ -36,7 +36,7 @@ const handleRegister = async (req, res, db, bcrypt) => {
     res.json({
       user: user,
       token: session.token,
-      success: 'true'
+      success: true
     });
 
   } catch (err) {

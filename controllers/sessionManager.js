@@ -53,10 +53,10 @@ const createSession = async (user) => {
       console.log('⚠️ Redis not available - session will not persist');
     }
 
-    return { success: 'true', userId: id, token };
+    return { success: true, userId: id, token };
   } catch (err) {
     console.error('Session creation error:', err);
-    return { success: 'false', error: err.message };
+    return { success: false, error: err.message };
   }
 };
 
