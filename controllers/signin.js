@@ -22,13 +22,7 @@ const handleSignin = (db, bcrypt, req, res) => {
 }
 
 // Asynch getAuthTokenId
-const getAuthTokenId = async (req, res) => {
-	const { authorization } = req.headers;
-	
-	if (!authorization) {
-		return res.status(401).send('Unauthorized');
-	}
-	
+const getAuthTokenId = async (req, res, authorization) => {
 	try {
 		const reply = await redisClient.get(authorization);
 		if (!reply) {
@@ -44,8 +38,8 @@ const getAuthTokenId = async (req, res) => {
 const signinAuthiedication = (db, bcrypt) => async (req, res) => {
 	const { authorization } = req.headers;
 
-	if (authorization) {
-		return getAuthTokenId(req, res)
+	if (authorization) { // in case of refresh will pass again from signin page, because is the default page
+		return getAuthTokenId(req, res, authorization);
 	}
 
 	try {

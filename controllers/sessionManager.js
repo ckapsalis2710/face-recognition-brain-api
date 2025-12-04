@@ -37,7 +37,7 @@ const signToken = (email) => {
 const setToken = (token, userId) => {
   return redisClient.set(token, userId.toString(), {
     EX: 60 * 60 * 24 * 2, // 2 days in seconds
-    NX: true // Set if Not eXists
+    NX: true // Set token if Not eXists
   });
 };
 

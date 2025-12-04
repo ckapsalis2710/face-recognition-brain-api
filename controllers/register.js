@@ -20,12 +20,12 @@ const handleRegister = async (req, res, db, bcrypt) => {
 
       // Insert to users db table
       const user = await trx('users')
-        .returning('*')
-        .insert({
-          email: loginEmail[0].email,
-          name: name,
-          joined: new Date()
-        });
+      .returning('*')
+      .insert({
+        email: loginEmail[0].email,
+        name: name,
+        joined: new Date()
+      });
 
       return user[0];
     });
