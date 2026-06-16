@@ -31,7 +31,7 @@ const db = process.env.NODE_ENV === 'development' ? knex({
       connection: {
         host : process.env.DATABASE_HOST,
         user : process.env.DATABASE_USER,
-        password : '',
+        password : process.env.DATABASE_PASSWORD,
         database : process.env.DATABASE_NAME
       }
     }) :
@@ -73,6 +73,6 @@ app.listen(process.env.PORT || serverDefaultPort, ()=> {
   if (process.env.PORT) {
     console.log(`App is running on port ${process.env.PORT}`);
   } else {
-    console.log(`App is running on port ${serverDefaultPort}`);
+    console.log(`App is running on default port ${serverDefaultPort}`);
   }
 });
